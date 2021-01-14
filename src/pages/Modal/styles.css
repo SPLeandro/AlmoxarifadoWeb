@@ -1,0 +1,22 @@
+.FormModal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ModalInputs{
+    padding: 24px;
+    width: 1400px;
+    display: flex;
+    align-items: inherit;
+    flex-direction: column;
+}
+
+.TextInput{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 50px;
+    padding: 12px;
+}
+

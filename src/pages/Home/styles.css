@@ -1,0 +1,28 @@
+.Content {
+    margin: 0 auto;
+}
+
+.SearchBar {   
+    width: 100%;
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+
+.OptionsBar {   
+    width: 100%;
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+input {
+    width: 100%;
+    height: 40px;
+    color: #333;
+    border: 1px solid #dcdce6;
+    border-radius: 8px;
+    padding: 0 12px;
+    margin-right: 24px;
+    font: 400 18px Roboto, sans-serif;
+}

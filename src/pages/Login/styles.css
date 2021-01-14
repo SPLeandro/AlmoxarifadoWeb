@@ -1,0 +1,12 @@
+.ContainerForm{
+    padding: 24px;
+    width: 360px;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+button{
+    height: 40px;
+}
