@@ -6,7 +6,7 @@
 
 .ModalInputs{
     padding: 24px;
-    width: 1400px;
+    width: 1000px;
     display: flex;
     align-items: inherit;
     flex-direction: column;
@@ -18,5 +18,18 @@
     width: 100%;
     margin-top: 50px;
     padding: 12px;
+}
+
+
+.RightButtons {
+    flex-direction: row;
+    align-items: flex-end;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.RightButtons button + button{
+    margin-left: 12px;
 }
 
