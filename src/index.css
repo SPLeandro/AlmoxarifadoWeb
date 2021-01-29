@@ -15,10 +15,18 @@ body {
     width: auto;
     height: 100vh;
     background-image: linear-gradient(to bottom right, rgb(23, 234, 217), rgb(96, 120, 234));
-    
+
+}
+
+input, button, textarea {
+    font: 400 18px Roboto, sans-serif;
+}
+
+.windowArea {
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 

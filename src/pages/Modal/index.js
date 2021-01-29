@@ -19,8 +19,6 @@ function ProdsModal(props) {
     const [title, setTitle] = useState('');
     const [inputs, setInputs] = useState('');
 
-    console.log(`ALTERANDO QTDE PARA: ${qtde}`);
-
     async function AumentarQtde(){
         console.log(`AUMENTOU ${qtde}`);
         props.setModal(false)
@@ -94,8 +92,7 @@ function ProdsModal(props) {
             setDescr(props.data.DESCR);
             setRef(props.data.REF);
             setMarca(props.data.MARCA); 
-            setMed(props.data.MED);
-            setQtde(props.data.QTD);
+            setMed(props.data.MED);           
             setInputs('');
             
             let {reason} = props.data;   
@@ -134,9 +131,10 @@ function ProdsModal(props) {
                     setInputs(
                         <TextField 
                             label="Quantidade" 
-                            value={qtde} onChange={async e => await setQtde(e.target.value)}
+                            value={qtde} onChange={e => setQtde(e.target.value)}
                         />
-                    )             
+                    )   
+                    setQtde(props.data.QTD);          
                 break;
 
                 case 'subtrair':
@@ -149,11 +147,12 @@ function ProdsModal(props) {
                     ));
 
                     setInputs(
-                        <TextField 
+                        <input
                             label="Quantidade" 
-                            value={qtde} onChange={async e => await setQtde(e.target.value)}
+                            value={qtde} onChange={e => setQtde(e.target.value)}
                         />
                     )
+                    setQtde(props.data.QTD);
 
                 break;
                     
@@ -175,6 +174,10 @@ function ProdsModal(props) {
                 <Typography style={{display: 'flex' , justifyContent: 'center'}} variant="h5">{title} PRODUTO</Typography>
 
                 <div className="TextInput">
+
+
+                    <input>
+                    </input>
 
                     <TextField 
                         disabled={disable} label="Descrição" 

@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
+import {useHistory} from 'react-router-dom';
+import {Table, TableContainer, TableHead, TableBody, TableRow, TableCell, TableFooter, TablePagination, Paper, IconButton, Button, Avatar} from '@material-ui/core';
+import {Edit, ArrowUpward, ArrowDownward, Add} from '@material-ui/icons';
 
-import {Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, IconButton, Button, Avatar} from '@material-ui/core';
-import {Edit, ArrowUpward, ArrowDownward} from '@material-ui/icons';
-
-import Modal from '../Modal/';
+import Modal from '../ProductController/';
 
 
 import api from '../../services/api';
 
 import './styles.css'
+
 
 
 function Home(){
@@ -60,11 +61,21 @@ function Home(){
     const [data, setData] = useState('');
     const [searchValue, setSearchValue] = useState('');
 
-    useEffect(() => {
+    const history = useHistory();
 
+    useEffect(() => {      
+        
+        if(!sessionStorage.getItem('Login')){
+            history.replace('/');
+        }
+
+        if(!sessionStorage.getItem('EMPRESA_SHOW')){
+            history.replace('/empresa');
+        }
+                
         async function loadProdutos(){
 
-            const COD_EMPRESA = sessionStorage.getItem('COD_EMPRESA');
+            const COD_EMPRESA = sessionStorage.getItem('EMPRESA_SHOW');
 
             const produtos = await api.get('produto',{
                 headers: {
@@ -73,10 +84,8 @@ function Home(){
             });
             setProds(produtos.data);
         }
-
         loadProdutos();
-        
-
+    
     },[])
 
     function openModal(e, reason){
@@ -89,22 +98,21 @@ function Home(){
             MARCA : '',
             MED : '',
             QTDE : '',
-            reason: 'cadastrar',
+            reason: 'CADASTRAR',
         }
 
-        if(reason == 'cadastrar'){
+        e.reason = reason;
+
+        if(reason == 'CADASTRAR'){
             setData(emptyData);             
         }
-        if(reason == 'adicionar') {
-            e.reason = 'adicionar';
+        if(reason == 'INCREMENTAR') {
             setData(e);
         }
-        if(reason == 'subtrair') {
-            e.reason = 'subtrair';
+        if(reason == 'DECREMENTAR') {
             setData(e);
         } 
-        if(reason == 'editar') {
-            e.reason = 'editar';
+        if(reason == 'EDITAR') {
             setData(e);
         }
 
@@ -113,7 +121,7 @@ function Home(){
     }
 
     async function HandleSearch(){
-        const COD_EMPRESA = sessionStorage.getItem('COD_EMPRESA');
+        const COD_EMPRESA = sessionStorage.getItem('EMPRESA_SHOW');
         const response = await api.get(`/produto/${searchValue}`, {
             headers: {
                 COD_EMPRESA: COD_EMPRESA
@@ -123,16 +131,21 @@ function Home(){
     }
 
     return (
-
-        <div className="Content">
+        <div className="windowArea">
+        <div className="windowArea">
 
             <div className="SearchBar">
-                <input type="text" placeholder="Insira a DESCRICAO do produto a ser pesquisado" value={searchValue} onChange={e=>setSearchValue(e.target.value)} />
+                <input 
+                    type="text" 
+                    placeholder="Insira a DESCRICAO do produto a ser pesquisado" 
+                    value={searchValue} 
+                    onChange={e=>setSearchValue(e.target.value)} 
+                />
                 <Button variant="contained" color="primary" onClick={e=>HandleSearch(e.target.value)} >Pesquisar</Button>
             </div>
 
                     
-            <TableContainer  component={Paper}>
+            <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -148,8 +161,8 @@ function Home(){
                     
                     </TableHead>
                     <TableBody>
-                        {prods.map(i => (
-                            <TableRow>
+                        {prods.map((i, index) => (
+                            <TableRow key={index}>
                                 <TableCell>{<Avatar alt={i.DESCR} src={i.IMG} />}</TableCell>
                                 <TableCell>{i.COD_PRODUTO}</TableCell>
                                 <TableCell>{i.DESCR}</TableCell>
@@ -159,18 +172,24 @@ function Home(){
                                 <TableCell>{i.QTD}</TableCell>
                                 <TableCell>
 
-                                    <IconButton onClick={() => openModal(i, 'adicionar')}
+                                    <IconButton
+                                        disabled={sessionStorage.getItem('COD_EMPRESA') == sessionStorage.getItem('EMPRESA_SHOW') ? false : true} 
+                                        onClick={() => openModal(i, 'INCREMENTAR')}
                                         style={{ color: '#00cc00' }} aria-label="ArrowUpward">
                                         <ArrowUpward />
                                     </IconButton>
 
-                                    <IconButton onClick={() => openModal(i, 'subtrair')}
+                                    <IconButton 
+                                        disabled={sessionStorage.getItem('COD_EMPRESA') == sessionStorage.getItem('EMPRESA_SHOW') ? false : true} 
+                                        onClick={() => openModal(i, 'DECREMENTAR')}
                                         style={{ color: '#b53737' }} aria-label="ArrowDownwardIcon">
                                         <ArrowDownward />
                                     </IconButton>
 
 
-                                    <IconButton onClick={() => openModal(i,'editar')}
+                                    <IconButton
+                                        disabled={sessionStorage.getItem('COD_EMPRESA') == sessionStorage.getItem('EMPRESA_SHOW') ? false : true} 
+                                        onClick={() => openModal(i,'EDITAR')}
                                         aria-label="edit">
                                         <Edit />
                                     </IconButton>
@@ -180,14 +199,36 @@ function Home(){
                             </TableRow>
                         ))}
                     </TableBody>
+                    <TableFooter>
+                            <TableRow>
+                                <TablePagination
+                                    rowsPerPageOption={[1, 3, 5, {label: 'All', value: -1}]}
+                                    count={4}
+                                    rowsPerPage={2}
+                                    page={1}
+                                    SelectProps={{
+                                        inputProps: { 'aria-label': 'rows per page' },
+                                        native: true,
+                                    }}
+
+                                />
+                            </TableRow>
+                    </TableFooter>
                 </Table>
             </TableContainer>
 
             <div className="OptionsBar">
-                <Button className="buttonaa" variant="contained" color="primary" onClick={()=> openModal({}, 'cadastrar')} >CADASTRAR PRODUTO</Button>
+                <Button className="buttonaa" 
+                    disabled={sessionStorage.getItem('COD_EMPRESA') == sessionStorage.getItem('EMPRESA_SHOW') ? false : true} 
+                    variant="contained" color="primary" 
+                    onClick={()=> openModal({}, 'CADASTRAR')} 
+                    startIcon={<Add />}>
+                    CADASTRAR 
+                </Button>
             </div>
 
             <Modal showModal={showModal} setModal={setModal} data={data} setProds={setProds}/>
+        </div>
         </div>
 
 

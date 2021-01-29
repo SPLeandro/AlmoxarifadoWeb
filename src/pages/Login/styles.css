@@ -1,10 +1,30 @@
-.ContainerForm{
-    padding: 24px;
-    width: 360px;
-    height: 320px;
+.Container{
+    max-width: 840px;
+    margin: 0 auto;
+    padding: 12px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
+}
+
+.ContainerForm{
+    padding:12px;
+    margin-right: 12px;
+}
+
+.ImageContainer{
+    display: flex;
+}
+
+.ImageContainer img{
+    height: 320px;
+    width: auto;
+}
+
+.ContainerObs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
 }
 
 button{
