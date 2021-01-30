@@ -52,7 +52,6 @@ function CreateData(props){
             });
             
             props.setModal(false);
-            window.location.reload();
         }
 
     }

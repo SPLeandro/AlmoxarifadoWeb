@@ -33,7 +33,6 @@ function ProdsModal(props) {
             })
             
             props.setModal(false);     
-            window.location.reload();
         }
         
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-import { Paper, TextField, InputAdornment, Button, Input} from '@material-ui/core';
+import { Paper, TextField, InputAdornment, Button, Select, MenuItem, FormControl, InputLabel, FormHelperText} from '@material-ui/core';
 import {Info, Assignment, Person, Business, Beenhere, AspectRatio, UnfoldMore, Report} from '@material-ui/icons';
 
 import api from '../../services/api';
@@ -20,23 +20,26 @@ function ProdsModal(props) {
     const [error, setError] = useState([]);
 
     async function DiminuirQtde(){
-        let erros = [false, false, false];
+        let erros = [false, false, false, false];
 
-        if(!NOME_REC){
+        if(!EMPRESA_REC){
             erros[0] = true;
-        }
+        }   
 
         if(!SETOR_REC){
             erros[1] = true;
         }
+        if(!NOME_REC){
+            erros[2] = true;
+        }
 
         if(!qtde){
-            erros[2] = true;
+            erros[3] = true;
         } 
 
         setError(erros);
 
-        if(NOME_REC && SETOR_REC && qtde){
+        if(EMPRESA_REC && SETOR_REC && NOME_REC && qtde){
 
             console.log(`Diminuiu ${qtde}`);
             setError(false);
@@ -149,38 +152,22 @@ function ProdsModal(props) {
 
                     <div className="InputGroup" >
                     <div className="Input">
-                            <TextField
-                                fullWidth={true}
-                                error={error[0]}
-                                label="EMPRESA DO RECEBEDOR"
-                                value={EMPRESA_REC} onChange={e => setEmpresaRec(e.target.value)}
-                                InputProps={{
-                                    startAdornment:(
-                                        <InputAdornment>
-                                            {error[0] ? <Report color="secondary" /> : <Person />}
-                                        </InputAdornment>
-                                    )
-                                }}
-                                helperText={error[0] ? "Insira uma EMPRESA válido" : ""}
-                            />
-                        </div>
-                        <div className="Input">
-                            <TextField
-                                fullWidth={true}
-                                error={error[0]}
-                                label="NOME DO RECEBEDOR"
-                                value={NOME_REC} onChange={e => setNomeRec(e.target.value)}
-                                InputProps={{
-                                    startAdornment:(
-                                        <InputAdornment>
-                                            {error[0] ? <Report color="secondary" /> : <Person />}
-                                        </InputAdornment>
-                                    )
-                                }}
-                                helperText={error[0] ? "Insira um NOME válido" : ""}
-                            />
-                        </div>
-
+                        <FormControl required fullWidth={true}>
+                            <InputLabel error={error[0]} >EMPRESA DO RECEBEDOR</InputLabel>
+                            <Select
+                            error={error[0]}
+                            value={EMPRESA_REC}
+                            onChange={e => setEmpresaRec(e.target.value)} >
+                                <MenuItem value={1} >TERLOC</MenuItem>
+                                <MenuItem value={2}>DEPOTCE</MenuItem>
+                                <MenuItem value={3}>CEFERTIL</MenuItem>
+                                <MenuItem value={4}>CESLOG</MenuItem>
+                                <MenuItem value={5}>CEPARKING</MenuItem>
+                                <MenuItem value={6}>PARQUE RAIZ DA SERRA</MenuItem>
+                            </Select>
+                            <FormHelperText error={error[0]} >{error[0] ? "Selecione uma empresa" : ""} </FormHelperText>
+                        </FormControl>
+                    </div>
                         <div className="Input">
                             <TextField
                                 fullWidth={true}
@@ -194,28 +181,46 @@ function ProdsModal(props) {
                                         </InputAdornment>
                                     )
                                 }}
-                                helperText={error[1] ? "Insira um SETOR válido" : ""}
-                            
+                                helperText={error[1] ? "Insira um SETOR válido" : ""}                   
                             />
                         </div>
                     </div>
 
-                    <div className="Input">
-                        <TextField 
-                            fullWidth={true}
-                            error={error[2]}
-                            label="Quantidade" 
-                            value={qtde} onChange={e => setQtde(e.target.value)}
-                            InputProps={{
-                                startAdornment:(
-                                    <InputAdornment>
-                                        {error[2] ? <Report color="secondary" /> : <UnfoldMore />}
-                                    </InputAdornment>
-                                )
-                            }}
-                            helperText={error[2] ? "Insira uma quantidade válida." : ""}
+                    <div className="InputGroup">
+                        <div className="Input">
+                            <TextField
+                                fullWidth={true}
+                                error={error[2]}
+                                label="NOME DO RECEBEDOR"
+                                value={NOME_REC} onChange={e => setNomeRec(e.target.value)}
+                                InputProps={{
+                                    startAdornment:(
+                                        <InputAdornment>
+                                            {error[2] ? <Report color="secondary" /> : <Person />}
+                                        </InputAdornment>
+                                    )
+                                }}
+                                helperText={error[2] ? "Insira um NOME válido" : ""}
+                            />
+                        </div>
 
-                        />
+                        <div className="Input">
+                            <TextField 
+                                fullWidth={true}
+                                error={error[3]}
+                                label="Quantidade" 
+                                value={qtde} onChange={e => setQtde(e.target.value)}
+                                InputProps={{
+                                    startAdornment:(
+                                        <InputAdornment>
+                                            {error[3] ? <Report color="secondary" /> : <UnfoldMore />}
+                                        </InputAdornment>
+                                    )
+                                }}
+                                helperText={error[3] ? "Insira uma quantidade válida." : ""}
+
+                            />
+                        </div>
                     </div>
 
                 </div>

@@ -50,7 +50,6 @@ function CreateData(props){
             })
 
             props.setModal(false);
-            window.location.reload();
         }
 
     }
@@ -73,6 +72,7 @@ function CreateData(props){
                                 error={error[0]}
                                 fullWidth={true}
                                 label="Descrição" 
+                                placeholder="Insira a descrição do produto"
                                 value={DESCR} onChange={e => setDescr(e.target.value)}
                                 helperText={error[0] ? "Insira uma descrição válida." : ""}
                                 InputProps={{
@@ -91,6 +91,7 @@ function CreateData(props){
                                 error={error[1]}
                                 fullWidth={true}
                                 label="Referência" 
+                                placeholder="Insira uma referência do produto"
                                 value={REF} onChange={e => setRef(e.target.value)}
                                 helperText={error[1] ? "Insira uma referência válida." : ""}
                                 InputProps={{
@@ -109,6 +110,7 @@ function CreateData(props){
                             error={error[2]}
                             fullWidth={true}
                             label="Marca" 
+                            placeholder="Insira a marca do produto"
                             value={MARCA} onChange={e => setMarca(e.target.value)}
                             helperText={error[2] ? "Insira uma marca válida." : ""}
                             InputProps={{
@@ -126,6 +128,7 @@ function CreateData(props){
                             error={error[3]}
                             fullWidth={true}
                             label="Medidas" 
+                            placeholder="Insira as medidas do produto"
                             value={MED} onChange={e => setMed(e.target.value)}
                             helperText={error[3] ? "Insira uma medida válida." : ""}
                             InputProps={{
